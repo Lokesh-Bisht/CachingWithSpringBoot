@@ -3,6 +3,15 @@ spring:
     active: ${cachingServiceAppProfile}
   application:
     name: caching-service
+  data:
+    mongodb:
+      uri: ${cachingServiceAppMongoURI}
+      uuid-representation: standard
+    database: ${cachingServiceMongoDbName}
+redis:
+  host: ${redisHost}
+  port: ${redisPort}
+  database: ${redisDatabase}
 server:
   servlet:
     context-path: /caching_service
