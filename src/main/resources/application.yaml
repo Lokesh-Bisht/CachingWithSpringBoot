@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: ${cachingServiceAppProfile}
+  application:
+    name: caching-service
+server:
+  servlet:
+    context-path: /caching_service
