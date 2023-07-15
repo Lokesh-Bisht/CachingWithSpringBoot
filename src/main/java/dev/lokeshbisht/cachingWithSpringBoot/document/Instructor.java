@@ -13,7 +13,7 @@ public class Instructor {
     @Id
     private String id;
 
-    private Integer instructorId;
+    private Long instructorId;
 
     private String name;
 
