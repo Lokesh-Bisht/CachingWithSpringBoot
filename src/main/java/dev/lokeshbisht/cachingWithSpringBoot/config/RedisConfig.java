@@ -32,5 +32,12 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(jedisConnectionFactory());
         return redisTemplate;
     }
+
+    @Bean(name = "counterRedisTemplate")
+    public RedisTemplate<String, Long> counterRedisTemplate() {
+        RedisTemplate<String, Long> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(jedisConnectionFactory());
+        return redisTemplate;
+    }
 }
 
