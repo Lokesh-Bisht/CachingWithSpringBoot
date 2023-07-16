@@ -23,4 +23,9 @@ public class InstructorController {
     public Instructor updateInstructor(@RequestBody InstructorDto instructorDto, @PathVariable Long instructorId) {
         return instructorService.updateInstructor(instructorDto, instructorId);
     }
+
+    @GetMapping("/instructor/{instructorId}")
+    public Instructor getInstructor(@PathVariable Long instructorId) {
+        return instructorService.getInstructor(instructorId);
+    }
 }

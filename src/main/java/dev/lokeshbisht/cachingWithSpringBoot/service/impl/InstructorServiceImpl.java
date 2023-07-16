@@ -58,4 +58,15 @@ public class InstructorServiceImpl implements InstructorService {
         updatedInstructorInfo.setUpdatedAt(new Date());
         return instructorRepository.save(updatedInstructorInfo);
     }
+
+    @Override
+    public Instructor getInstructor(Long instructorId) {
+        logger.info("Get info for instructor: {}", instructorId);
+        Instructor instructor = instructorRepository.findOneByInstructorId(instructorId);
+        if (instructor == null) {
+            logger.error("Instructor not found");
+            throw new InstructorNotFoundException("Requested invalid instructor's info.");
+        }
+        return instructor;
+    }
 }
