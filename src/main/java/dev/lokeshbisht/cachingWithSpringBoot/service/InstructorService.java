@@ -7,4 +7,5 @@ public interface InstructorService {
 
     Instructor createInstructor(InstructorDto instructorDto);
     Instructor updateInstructor(InstructorDto instructorDto, Long instructorId);
+    Instructor getInstructor(Long instructorId);
 }
