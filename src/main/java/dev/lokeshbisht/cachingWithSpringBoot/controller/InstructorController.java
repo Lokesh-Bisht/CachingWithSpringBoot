@@ -15,7 +15,12 @@ public class InstructorController {
     private InstructorService instructorService;
 
     @PostMapping("/instructor")
-    Instructor createInstructor(@RequestBody InstructorDto instructorDto) {
+    public Instructor createInstructor(@RequestBody InstructorDto instructorDto) {
         return instructorService.createInstructor(instructorDto);
+    }
+
+    @PutMapping("/instructor/{instructorId}")
+    public Instructor updateInstructor(@RequestBody InstructorDto instructorDto, @PathVariable Long instructorId) {
+        return instructorService.updateInstructor(instructorDto, instructorId);
     }
 }
