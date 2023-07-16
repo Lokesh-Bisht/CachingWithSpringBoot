@@ -2,6 +2,7 @@ package dev.lokeshbisht.cachingWithSpringBoot.service.impl;
 
 import dev.lokeshbisht.cachingWithSpringBoot.document.Instructor;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.instructor.InstructorDto;
+import dev.lokeshbisht.cachingWithSpringBoot.exceptions.InstructorNotFoundException;
 import dev.lokeshbisht.cachingWithSpringBoot.mapper.InstructorMapper;
 import dev.lokeshbisht.cachingWithSpringBoot.repository.InstructorRepository;
 import dev.lokeshbisht.cachingWithSpringBoot.service.InstructorService;
@@ -40,5 +41,21 @@ public class InstructorServiceImpl implements InstructorService {
         Instructor instructor = instructorMapper.toInstructor(instructorDto, counter);
         instructor.setCreatedAt(new Date());
         return instructorRepository.save(instructor);
+    }
+
+    @Override
+    public Instructor updateInstructor(InstructorDto instructorDto, Long instructorId) {
+        logger.info("Update instructor {}, with new info: {}", instructorId, instructorDto);
+        Instructor instructor = instructorRepository.findOneByInstructorId(instructorId);
+        if (instructor == null) {
+            logger.error("Instructor not found");
+            throw new InstructorNotFoundException("Requested invalid instructor's info.");
+        }
+        Instructor updatedInstructorInfo = instructorMapper.toInstructor(instructorDto, instructorId);
+        updatedInstructorInfo.setId(instructor.getId());
+        updatedInstructorInfo.setCreatedBy(instructor.getCreatedBy());
+        updatedInstructorInfo.setCreatedAt(instructor.getCreatedAt());
+        updatedInstructorInfo.setUpdatedAt(new Date());
+        return instructorRepository.save(updatedInstructorInfo);
     }
 }
