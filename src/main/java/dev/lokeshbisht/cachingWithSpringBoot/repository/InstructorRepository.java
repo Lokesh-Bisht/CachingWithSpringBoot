@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InstructorRepository extends MongoRepository<Instructor, String> {
+    Instructor findOneByInstructorId(Long instructorId);
 }
