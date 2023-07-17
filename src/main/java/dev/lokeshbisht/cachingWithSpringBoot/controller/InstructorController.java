@@ -1,10 +1,13 @@
 package dev.lokeshbisht.cachingWithSpringBoot.controller;
 
 import dev.lokeshbisht.cachingWithSpringBoot.document.Instructor;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.ApiResponseDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.instructor.InstructorDto;
 import dev.lokeshbisht.cachingWithSpringBoot.service.InstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -27,5 +30,10 @@ public class InstructorController {
     @GetMapping("/instructor/{instructorId}")
     public Instructor getInstructor(@PathVariable Long instructorId) {
         return instructorService.getInstructor(instructorId);
+    }
+
+    @GetMapping("/instructor/all")
+    public ApiResponseDto<List<Instructor>> getAllInstructors() {
+        return instructorService.getAllInstructors();
     }
 }

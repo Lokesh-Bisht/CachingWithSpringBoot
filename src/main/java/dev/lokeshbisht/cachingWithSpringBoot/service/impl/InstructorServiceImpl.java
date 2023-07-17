@@ -1,6 +1,8 @@
 package dev.lokeshbisht.cachingWithSpringBoot.service.impl;
 
 import dev.lokeshbisht.cachingWithSpringBoot.document.Instructor;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.ApiResponseDto;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.MetaDataDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.instructor.InstructorDto;
 import dev.lokeshbisht.cachingWithSpringBoot.exceptions.InstructorNotFoundException;
 import dev.lokeshbisht.cachingWithSpringBoot.mapper.InstructorMapper;
@@ -14,6 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class InstructorServiceImpl implements InstructorService {
@@ -68,5 +71,14 @@ public class InstructorServiceImpl implements InstructorService {
             throw new InstructorNotFoundException("Requested invalid instructor's info.");
         }
         return instructor;
+    }
+
+    @Override
+    public ApiResponseDto<List<Instructor>> getAllInstructors() {
+        logger.info("Get all instructors.");
+        long startTime = System.currentTimeMillis();
+        List<Instructor> instructorList = instructorRepository.findAll();
+        MetaDataDto metaDataDto = MetaDataDto.builder().page(1).size(1).total(instructorList.size()).took(System.currentTimeMillis() - startTime).build();
+        return new ApiResponseDto<>(instructorList, "OK", metaDataDto);
     }
 }
