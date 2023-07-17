@@ -1,6 +1,7 @@
 package dev.lokeshbisht.cachingWithSpringBoot.controller;
 
 import dev.lokeshbisht.cachingWithSpringBoot.document.Instructor;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.ApiResponseDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.instructor.InstructorDto;
 import dev.lokeshbisht.cachingWithSpringBoot.service.InstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class InstructorController {
     }
 
     @GetMapping("/instructor/all")
-    public List<Instructor> getAllInstructors() {
+    public ApiResponseDto<List<Instructor>> getAllInstructors() {
         return instructorService.getAllInstructors();
     }
 }

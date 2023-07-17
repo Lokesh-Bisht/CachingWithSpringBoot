@@ -1,6 +1,8 @@
 package dev.lokeshbisht.cachingWithSpringBoot.service.impl;
 
 import dev.lokeshbisht.cachingWithSpringBoot.document.Instructor;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.ApiResponseDto;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.MetaDataDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.instructor.InstructorDto;
 import dev.lokeshbisht.cachingWithSpringBoot.exceptions.InstructorNotFoundException;
 import dev.lokeshbisht.cachingWithSpringBoot.mapper.InstructorMapper;
@@ -72,8 +74,11 @@ public class InstructorServiceImpl implements InstructorService {
     }
 
     @Override
-    public List<Instructor> getAllInstructors() {
+    public ApiResponseDto<List<Instructor>> getAllInstructors() {
         logger.info("Get all instructors.");
-        return instructorRepository.findAll();
+        long startTime = System.currentTimeMillis();
+        List<Instructor> instructorList = instructorRepository.findAll();
+        MetaDataDto metaDataDto = MetaDataDto.builder().page(1).size(1).total(instructorList.size()).took(System.currentTimeMillis() - startTime).build();
+        return new ApiResponseDto<>(instructorList, "OK", metaDataDto);
     }
 }
