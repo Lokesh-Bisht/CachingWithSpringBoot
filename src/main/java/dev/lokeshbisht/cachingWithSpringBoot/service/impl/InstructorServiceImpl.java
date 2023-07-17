@@ -14,6 +14,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class InstructorServiceImpl implements InstructorService {
@@ -68,5 +69,11 @@ public class InstructorServiceImpl implements InstructorService {
             throw new InstructorNotFoundException("Requested invalid instructor's info.");
         }
         return instructor;
+    }
+
+    @Override
+    public List<Instructor> getAllInstructors() {
+        logger.info("Get all instructors.");
+        return instructorRepository.findAll();
     }
 }

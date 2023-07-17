@@ -6,6 +6,8 @@ import dev.lokeshbisht.cachingWithSpringBoot.service.InstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/v1")
@@ -27,5 +29,10 @@ public class InstructorController {
     @GetMapping("/instructor/{instructorId}")
     public Instructor getInstructor(@PathVariable Long instructorId) {
         return instructorService.getInstructor(instructorId);
+    }
+
+    @GetMapping("/instructor/all")
+    public List<Instructor> getAllInstructors() {
+        return instructorService.getAllInstructors();
     }
 }
