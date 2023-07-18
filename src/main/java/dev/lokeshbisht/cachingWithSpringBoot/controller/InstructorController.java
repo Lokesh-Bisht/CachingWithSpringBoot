@@ -36,4 +36,9 @@ public class InstructorController {
     public ApiResponseDto<List<Instructor>> getAllInstructors() {
         return instructorService.getAllInstructors();
     }
+
+    @DeleteMapping("/instructor/{instructorId}")
+    public void deleteInstructor(@PathVariable Long instructorId) {
+        instructorService.deleteInstructor(instructorId);
+    }
 }
