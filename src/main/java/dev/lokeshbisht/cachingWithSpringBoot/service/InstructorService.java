@@ -12,4 +12,5 @@ public interface InstructorService {
     Instructor updateInstructor(InstructorDto instructorDto, Long instructorId);
     Instructor getInstructor(Long instructorId);
     ApiResponseDto<List<Instructor>> getAllInstructors();
+    void deleteInstructor(Long instructorId);
 }
