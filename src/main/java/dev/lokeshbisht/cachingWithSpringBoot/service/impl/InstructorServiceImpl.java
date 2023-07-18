@@ -81,4 +81,14 @@ public class InstructorServiceImpl implements InstructorService {
         MetaDataDto metaDataDto = MetaDataDto.builder().page(1).size(1).total(instructorList.size()).took(System.currentTimeMillis() - startTime).build();
         return new ApiResponseDto<>(instructorList, "OK", metaDataDto);
     }
+
+    @Override
+    public void deleteInstructor(Long instructorId) {
+        logger.info("Delete instructor: {}", instructorId);
+        Instructor instructor = instructorRepository.findOneByInstructorId(instructorId);
+        if (instructor == null) {
+            throw new InstructorNotFoundException("Instructor not found.");
+        }
+        instructorRepository.delete(instructor);
+    }
 }
