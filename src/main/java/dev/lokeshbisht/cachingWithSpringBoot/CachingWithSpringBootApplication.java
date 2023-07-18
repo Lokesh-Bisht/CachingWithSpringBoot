@@ -9,5 +9,4 @@ public class CachingWithSpringBootApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CachingWithSpringBootApplication.class, args);
 	}
-
 }
