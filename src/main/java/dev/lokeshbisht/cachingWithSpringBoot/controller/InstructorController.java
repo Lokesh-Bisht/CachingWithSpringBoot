@@ -4,6 +4,7 @@ import dev.lokeshbisht.cachingWithSpringBoot.document.Instructor;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.ApiResponseDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.instructor.InstructorDto;
 import dev.lokeshbisht.cachingWithSpringBoot.service.InstructorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -21,13 +22,13 @@ public class InstructorController {
 
     @PostMapping("/instructor")
     @CacheEvict(value = "instructor", key = "'all'")
-    public Instructor createInstructor(@RequestBody InstructorDto instructorDto) {
+    public Instructor createInstructor(@Valid @RequestBody InstructorDto instructorDto) {
         return instructorService.createInstructor(instructorDto);
     }
 
     @PutMapping("/instructor/{instructorId}")
     @CacheEvict(value = "instructor", key = "'all'")
-    public Instructor updateInstructor(@RequestBody InstructorDto instructorDto, @PathVariable Long instructorId) {
+    public Instructor updateInstructor(@Valid @RequestBody InstructorDto instructorDto, @PathVariable Long instructorId) {
         return instructorService.updateInstructor(instructorDto, instructorId);
     }
 
