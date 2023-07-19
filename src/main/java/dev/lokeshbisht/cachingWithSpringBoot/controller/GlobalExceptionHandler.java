@@ -4,6 +4,7 @@ import dev.lokeshbisht.cachingWithSpringBoot.document.Instructor;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.ErrorResponseDto;
 import dev.lokeshbisht.cachingWithSpringBoot.enums.ErrorCode;
 import dev.lokeshbisht.cachingWithSpringBoot.exceptions.InstructorNotFoundException;
+import dev.lokeshbisht.cachingWithSpringBoot.exceptions.SubjectNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDto> handleInstructorNotFoundException(InstructorNotFoundException ex) {
         log.error("InstructorNotFoundException: {}", ex.getMessage());
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(ErrorCode.INSTRUCTOR_NOT_FOUND, ex.getMessage());
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(SubjectNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleSubjectNotFoundException(SubjectNotFoundException ex) {
+        log.error("SubjectNotFoundException: {}", ex.getMessage());
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(ErrorCode.SUBJECT_NOT_FOUND, ex.getMessage());
         return new ResponseEntity<>(errorResponseDto, HttpStatus.NOT_FOUND);
     }
 
