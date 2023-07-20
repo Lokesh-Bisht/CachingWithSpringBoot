@@ -18,4 +18,9 @@ public class SubjectController {
     public Subject createSubject(@RequestBody SubjectDto subjectDto) {
         return subjectService.createSubject(subjectDto);
     }
+
+    @PutMapping("/subject/{subjectId}")
+    public Subject updateSubject(@RequestBody SubjectDto subjectDto, @PathVariable Long subjectId) {
+        return subjectService.updateSubject(subjectDto, subjectId);
+    }
 }
