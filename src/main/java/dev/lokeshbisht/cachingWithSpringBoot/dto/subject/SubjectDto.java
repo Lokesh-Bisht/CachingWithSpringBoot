@@ -16,6 +16,9 @@ import static dev.lokeshbisht.cachingWithSpringBoot.constants.JsonConstants.ISO8
 @AllArgsConstructor
 public class SubjectDto {
 
+    @JsonProperty("subject_id")
+    private Long subjectId;
+
     private String name;
 
     @JsonProperty("subject_code")
