@@ -16,6 +16,8 @@ public class Subject {
     @Id
     private String id;
 
+    private Long subjectId;
+
     private String name;
 
     private String code;
