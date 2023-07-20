@@ -24,8 +24,7 @@ public class SubjectDto {
     @JsonProperty("course_id")
     private Long courseId;
 
-    @JsonProperty("instructors")
-    private List<Long> instructorList;
+    private List<Long> instructors;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = ISO8601)
     @JsonProperty("created_at")
