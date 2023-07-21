@@ -23,4 +23,9 @@ public class SubjectController {
     public Subject updateSubject(@RequestBody SubjectDto subjectDto, @PathVariable Long subjectId) {
         return subjectService.updateSubject(subjectDto, subjectId);
     }
+
+    @GetMapping("/subject/{subjectId}")
+    public Subject getSubject(@PathVariable Long subjectId) {
+        return subjectService.getSubject(subjectId);
+    }
 }
