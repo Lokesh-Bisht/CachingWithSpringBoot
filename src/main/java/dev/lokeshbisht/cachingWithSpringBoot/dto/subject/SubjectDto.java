@@ -2,6 +2,8 @@ package dev.lokeshbisht.cachingWithSpringBoot.dto.subject;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,14 +18,18 @@ import static dev.lokeshbisht.cachingWithSpringBoot.constants.JsonConstants.ISO8
 @AllArgsConstructor
 public class SubjectDto {
 
+    @NotNull(message = "Subject id is required.")
     @JsonProperty("subject_id")
     private Long subjectId;
 
+    @NotEmpty(message = "Subject name is required.")
     private String name;
 
+    @NotEmpty(message = "Subject code is required.")
     @JsonProperty("subject_code")
     private String code;
 
+    @NotNull(message = "Course id can't be null.")
     @JsonProperty("course_id")
     private Long courseId;
 

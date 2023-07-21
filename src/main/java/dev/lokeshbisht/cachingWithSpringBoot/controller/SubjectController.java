@@ -3,6 +3,7 @@ package dev.lokeshbisht.cachingWithSpringBoot.controller;
 import dev.lokeshbisht.cachingWithSpringBoot.document.Subject;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.subject.SubjectDto;
 import dev.lokeshbisht.cachingWithSpringBoot.service.SubjectService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,12 +16,12 @@ public class SubjectController {
     private SubjectService subjectService;
 
     @PostMapping("/subject")
-    public Subject createSubject(@RequestBody SubjectDto subjectDto) {
+    public Subject createSubject(@Valid @RequestBody SubjectDto subjectDto) {
         return subjectService.createSubject(subjectDto);
     }
 
     @PutMapping("/subject/{subjectId}")
-    public Subject updateSubject(@RequestBody SubjectDto subjectDto, @PathVariable Long subjectId) {
+    public Subject updateSubject(@Valid @RequestBody SubjectDto subjectDto, @PathVariable Long subjectId) {
         return subjectService.updateSubject(subjectDto, subjectId);
     }
 
