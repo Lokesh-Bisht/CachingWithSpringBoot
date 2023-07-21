@@ -47,4 +47,14 @@ public class SubjectServiceImpl implements SubjectService {
         updatedSubject.setUpdatedAt(new Date());
         return subjectRepository.save(updatedSubject);
     }
+
+    @Override
+    public Subject getSubject(Long subjectId) {
+        logger.info("Get subject with subjectId: {}", subjectId);
+        Subject subject = subjectRepository.findOneBySubjectId(subjectId);
+        if (subject == null) {
+            throw new SubjectNotFoundException("Subject not found.");
+        }
+        return subject;
+    }
 }
