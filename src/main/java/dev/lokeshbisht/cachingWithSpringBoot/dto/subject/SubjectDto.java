@@ -18,10 +18,6 @@ import static dev.lokeshbisht.cachingWithSpringBoot.constants.JsonConstants.ISO8
 @AllArgsConstructor
 public class SubjectDto {
 
-    @NotNull(message = "Subject id is required.")
-    @JsonProperty("subject_id")
-    private Long subjectId;
-
     @NotEmpty(message = "Subject name is required.")
     private String name;
 

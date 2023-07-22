@@ -11,6 +11,8 @@ import dev.lokeshbisht.cachingWithSpringBoot.service.SubjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -25,12 +27,21 @@ public class SubjectServiceImpl implements SubjectService {
     @Autowired
     private SubjectMapper subjectMapper;
 
+    @Autowired
+    @Qualifier("counterRedisTemplate")
+    private RedisTemplate<String, Long> redisTemplate;
+
     private static final Logger logger = LoggerFactory.getLogger(SubjectServiceImpl.class);
 
     @Override
     public Subject createSubject(SubjectDto subjectDto) {
         logger.info("Create subject: {}", subjectDto);
-        Subject subject = subjectMapper.toSubject(subjectDto);
+        Long counter = redisTemplate.opsForValue().increment("subjectCounter");
+        if (counter == null) {
+            counter = 1L;
+            redisTemplate.opsForValue().set("subjectCounter", counter);
+        }
+        Subject subject = subjectMapper.toSubject(subjectDto, counter);
         subject.setCreatedAt(new Date());
         return subjectRepository.save(subject);
     }
@@ -42,7 +53,7 @@ public class SubjectServiceImpl implements SubjectService {
         if (subject == null) {
             throw new SubjectNotFoundException("Subject not found.");
         }
-        Subject updatedSubject = subjectMapper.toSubject(subjectDto);
+        Subject updatedSubject = subjectMapper.toSubject(subjectDto, subjectId);
         updatedSubject.setId(subject.getId());
         updatedSubject.setSubjectId(subjectId);
         updatedSubject.setCreatedAt(subject.getCreatedAt());
