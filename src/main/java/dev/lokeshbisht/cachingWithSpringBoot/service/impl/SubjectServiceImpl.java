@@ -1,6 +1,8 @@
 package dev.lokeshbisht.cachingWithSpringBoot.service.impl;
 
 import dev.lokeshbisht.cachingWithSpringBoot.document.Subject;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.ApiResponseDto;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.MetaDataDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.subject.SubjectDto;
 import dev.lokeshbisht.cachingWithSpringBoot.exceptions.SubjectNotFoundException;
 import dev.lokeshbisht.cachingWithSpringBoot.mapper.SubjectMapper;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class SubjectServiceImpl implements SubjectService {
@@ -56,5 +59,19 @@ public class SubjectServiceImpl implements SubjectService {
             throw new SubjectNotFoundException("Subject not found.");
         }
         return subject;
+    }
+
+    @Override
+    public ApiResponseDto<List<Subject>> getAllSubjects() {
+        logger.info("Get all subjects.");
+        long startTime = System.currentTimeMillis();
+        List<Subject> subjectList = subjectRepository.findAll();
+        MetaDataDto metaDataDto = MetaDataDto.builder()
+            .page(1)
+            .size(1)
+            .total(subjectList.size())
+            .took(System.currentTimeMillis() - startTime)
+            .build();
+        return new ApiResponseDto<>(subjectList, "OK", metaDataDto);
     }
 }
