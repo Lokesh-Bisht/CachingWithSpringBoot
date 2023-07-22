@@ -6,6 +6,8 @@ import dev.lokeshbisht.cachingWithSpringBoot.dto.subject.SubjectDto;
 import dev.lokeshbisht.cachingWithSpringBoot.service.SubjectService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,11 +21,13 @@ public class SubjectController {
     private SubjectService subjectService;
 
     @PostMapping("/subject")
+    @CacheEvict(value = "instructor", key = "'all'")
     public Subject createSubject(@Valid @RequestBody SubjectDto subjectDto) {
         return subjectService.createSubject(subjectDto);
     }
 
     @PutMapping("/subject/{subjectId}")
+    @CacheEvict(value = "instructor", key = "'all'")
     public Subject updateSubject(@Valid @RequestBody SubjectDto subjectDto, @PathVariable Long subjectId) {
         return subjectService.updateSubject(subjectDto, subjectId);
     }
@@ -34,6 +38,7 @@ public class SubjectController {
     }
 
     @GetMapping("/subject/all")
+    @Cacheable(value = "subjects", key = "'all'")
     public ApiResponseDto<List<Subject>> getAllSubjects() {
         return subjectService.getAllSubjects();
     }
