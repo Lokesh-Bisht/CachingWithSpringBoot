@@ -7,5 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface SubjectMapper {
 
-    Subject toSubject(SubjectDto subjectDto);
+    Subject toSubject(SubjectDto subjectDto, Long subjectId);
 }
