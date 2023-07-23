@@ -12,4 +12,5 @@ public interface SubjectService {
     Subject updateSubject(SubjectDto subjectDto, Long subjectId);
     Subject getSubject(Long subjectId);
     ApiResponseDto<List<Subject>> getAllSubjects();
+    void deleteSubjects(Long subjectId);
 }
