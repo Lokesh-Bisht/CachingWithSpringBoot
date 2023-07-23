@@ -85,4 +85,14 @@ public class SubjectServiceImpl implements SubjectService {
             .build();
         return new ApiResponseDto<>(subjectList, "OK", metaDataDto);
     }
+
+    @Override
+    public void deleteSubjects(Long subjectId) {
+        logger.info("Delete subject: {}", subjectId);
+        Subject subject = subjectRepository.findOneBySubjectId(subjectId);
+        if (subject == null) {
+            throw new SubjectNotFoundException("Subject not found.");
+        }
+        subjectRepository.delete(subject);
+    }
 }

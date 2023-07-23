@@ -42,4 +42,10 @@ public class SubjectController {
     public ApiResponseDto<List<Subject>> getAllSubjects() {
         return subjectService.getAllSubjects();
     }
+
+    @DeleteMapping("/subject/{subjectId}")
+    @CacheEvict(value = "subjects", key = "'all'")
+    public void deleteSubjects(@PathVariable Long subjectId) {
+        subjectService.deleteSubjects(subjectId);
+    }
 }
