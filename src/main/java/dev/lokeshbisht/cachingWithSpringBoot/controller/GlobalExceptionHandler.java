@@ -5,6 +5,7 @@ import dev.lokeshbisht.cachingWithSpringBoot.dto.ErrorResponseDto;
 import dev.lokeshbisht.cachingWithSpringBoot.enums.ErrorCode;
 import dev.lokeshbisht.cachingWithSpringBoot.exceptions.DepartmentNotFoundException;
 import dev.lokeshbisht.cachingWithSpringBoot.exceptions.InstructorNotFoundException;
+import dev.lokeshbisht.cachingWithSpringBoot.exceptions.InvalidResourceException;
 import dev.lokeshbisht.cachingWithSpringBoot.exceptions.SubjectNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,13 @@ public class GlobalExceptionHandler {
         log.error("DepartmentNotFoundException: {}", ex.getMessage());
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(ErrorCode.DEPARTMENT_NOT_FOUND, ex.getMessage());
         return new ResponseEntity<>(errorResponseDto, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidResourceException.class)
+    public ResponseEntity<ErrorResponseDto> handleInvalidResourceException(InvalidResourceException ex) {
+        log.error("InvalidResourceException: {}", ex.getMessage());
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(ErrorCode.INVALID_RESOURCE, ex.getMessage());
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
