@@ -3,6 +3,7 @@ package dev.lokeshbisht.cachingWithSpringBoot.controller;
 import dev.lokeshbisht.cachingWithSpringBoot.document.Instructor;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.ErrorResponseDto;
 import dev.lokeshbisht.cachingWithSpringBoot.enums.ErrorCode;
+import dev.lokeshbisht.cachingWithSpringBoot.exceptions.DepartmentNotFoundException;
 import dev.lokeshbisht.cachingWithSpringBoot.exceptions.InstructorNotFoundException;
 import dev.lokeshbisht.cachingWithSpringBoot.exceptions.SubjectNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDto> handleSubjectNotFoundException(SubjectNotFoundException ex) {
         log.error("SubjectNotFoundException: {}", ex.getMessage());
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(ErrorCode.SUBJECT_NOT_FOUND, ex.getMessage());
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DepartmentNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleDepartmentNotFoundException(DepartmentNotFoundException ex) {
+        log.error("DepartmentNotFoundException: {}", ex.getMessage());
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(ErrorCode.DEPARTMENT_NOT_FOUND, ex.getMessage());
         return new ResponseEntity<>(errorResponseDto, HttpStatus.NOT_FOUND);
     }
 
