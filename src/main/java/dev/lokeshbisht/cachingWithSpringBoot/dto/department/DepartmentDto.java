@@ -15,9 +15,6 @@ import static dev.lokeshbisht.cachingWithSpringBoot.constants.JsonConstants.ISO8
 @AllArgsConstructor
 public class DepartmentDto {
 
-    @JsonProperty("department_id")
-    private Long departmentId;
-
     @JsonProperty("department_code")
     private String code;
 
