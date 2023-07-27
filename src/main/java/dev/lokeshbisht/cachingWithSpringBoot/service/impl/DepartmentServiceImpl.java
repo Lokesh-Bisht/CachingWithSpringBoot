@@ -2,7 +2,6 @@ package dev.lokeshbisht.cachingWithSpringBoot.service.impl;
 
 import dev.lokeshbisht.cachingWithSpringBoot.document.Department;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.department.DepartmentDto;
-import dev.lokeshbisht.cachingWithSpringBoot.exceptions.DepartmentNotFoundException;
 import dev.lokeshbisht.cachingWithSpringBoot.mapper.DepartmentMapper;
 import dev.lokeshbisht.cachingWithSpringBoot.repository.DepartmentRepository;
 import dev.lokeshbisht.cachingWithSpringBoot.service.DepartmentService;
@@ -41,20 +40,5 @@ public class DepartmentServiceImpl implements DepartmentService {
         Department department = departmentMapper.toDepartment(departmentDto, counter);
         department.setCreatedAt(new Date());
         return departmentRepository.save(department);
-    }
-
-    @Override
-    public Department updateDepartment(DepartmentDto departmentDto, Long departmentId) {
-        logger.info("Update department: {}, info: {}", departmentId, departmentDto);
-        Department department = departmentRepository.findOneByDepartmentId(departmentId);
-        if (department == null) {
-            throw new DepartmentNotFoundException("Department not found!");
-        }
-        Department updatedDepartmentInfo = departmentMapper.toDepartment(departmentDto, departmentId);
-        updatedDepartmentInfo.setId(department.getId());
-        updatedDepartmentInfo.setCreatedBy(department.getCreatedBy());
-        updatedDepartmentInfo.setCreatedAt(department.getCreatedAt());
-        updatedDepartmentInfo.setUpdatedAt(new Date());
-        return departmentRepository.save(updatedDepartmentInfo);
     }
 }
