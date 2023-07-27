@@ -16,10 +16,10 @@ import static dev.lokeshbisht.cachingWithSpringBoot.constants.JsonConstants.ISO8
 public class DepartmentDto {
 
     @JsonProperty("department_code")
-    private String code;
+    private String departmentCode;
 
     @JsonProperty("department_name")
-    private String name;
+    private String departmentName;
 
     @JsonProperty("head_of_department")
     private Long headOfDepartment;
