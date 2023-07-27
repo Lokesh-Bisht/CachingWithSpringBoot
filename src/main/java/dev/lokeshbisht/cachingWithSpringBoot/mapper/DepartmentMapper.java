@@ -7,5 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface DepartmentMapper {
 
-    Department toDepartment(DepartmentDto departmentDto);
+    Department toDepartment(DepartmentDto departmentDto, Long departmentId);
 }
