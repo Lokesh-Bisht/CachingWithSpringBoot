@@ -18,4 +18,9 @@ public class DepartmentController {
     public Department createDepartment(@RequestBody DepartmentDto departmentDto) {
         return departmentService.createDepartment(departmentDto);
     }
+
+    @PutMapping("/department/{departmentId}")
+    public Department updateDepartment(@RequestBody DepartmentDto departmentDto, @PathVariable Long departmentId) {
+        return departmentService.updateDepartment(departmentDto, departmentId);
+    }
 }
