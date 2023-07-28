@@ -1,10 +1,13 @@
 package dev.lokeshbisht.cachingWithSpringBoot.controller;
 
 import dev.lokeshbisht.cachingWithSpringBoot.document.Department;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.ApiResponseDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.department.DepartmentDto;
 import dev.lokeshbisht.cachingWithSpringBoot.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -27,5 +30,10 @@ public class DepartmentController {
     @GetMapping("/department/{departmentId}")
     public Department getDepartment(@PathVariable Long departmentId) {
         return departmentService.getDepartment(departmentId);
+    }
+
+    @GetMapping("/department/all")
+    public ApiResponseDto<List<Department>> getAllDepartments() {
+        return departmentService.getAllDepartments();
     }
 }

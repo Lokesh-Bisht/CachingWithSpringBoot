@@ -1,6 +1,8 @@
 package dev.lokeshbisht.cachingWithSpringBoot.service.impl;
 
 import dev.lokeshbisht.cachingWithSpringBoot.document.Department;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.ApiResponseDto;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.MetaDataDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.department.DepartmentDto;
 import dev.lokeshbisht.cachingWithSpringBoot.exceptions.DepartmentNotFoundException;
 import dev.lokeshbisht.cachingWithSpringBoot.mapper.DepartmentMapper;
@@ -14,6 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -66,5 +69,19 @@ public class DepartmentServiceImpl implements DepartmentService {
             throw new DepartmentNotFoundException("Department not found!");
         }
         return department;
+    }
+
+    @Override
+    public ApiResponseDto<List<Department>> getAllDepartments() {
+        logger.info("Fetch all departments.");
+        long startTime = System.currentTimeMillis();
+        List<Department> departmentList = departmentRepository.findAll();
+        MetaDataDto metaDataDto = MetaDataDto.builder()
+            .page(1)
+            .size(1)
+            .total(departmentList.size())
+            .took(System.currentTimeMillis() - startTime)
+            .build();
+        return new ApiResponseDto<>(departmentList, "OK", metaDataDto);
     }
 }
