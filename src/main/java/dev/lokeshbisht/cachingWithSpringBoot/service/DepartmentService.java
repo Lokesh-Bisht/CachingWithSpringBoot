@@ -7,4 +7,5 @@ public interface DepartmentService {
 
     Department createDepartment(DepartmentDto departmentDto);
     Department updateDepartment(DepartmentDto departmentDto, Long departmentId);
+    Department getDepartment(Long departmentId);
 }
