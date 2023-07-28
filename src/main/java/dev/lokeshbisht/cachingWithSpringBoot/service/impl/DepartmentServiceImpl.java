@@ -57,4 +57,14 @@ public class DepartmentServiceImpl implements DepartmentService {
         updatedDepartmentInfo.setUpdatedAt(new Date());
         return departmentRepository.save(updatedDepartmentInfo);
     }
+
+    @Override
+    public Department getDepartment(Long departmentId) {
+        logger.info("Get department: {}", departmentId);
+        Department department = departmentRepository.findOneByDepartmentId(departmentId);
+        if (department == null) {
+            throw new DepartmentNotFoundException("Department not found!");
+        }
+        return department;
+    }
 }
