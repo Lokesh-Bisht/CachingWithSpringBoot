@@ -36,4 +36,9 @@ public class DepartmentController {
     public ApiResponseDto<List<Department>> getAllDepartments() {
         return departmentService.getAllDepartments();
     }
+
+    @DeleteMapping("/department/{departmentId}")
+    public void deleteDepartment(@PathVariable Long departmentId) {
+        departmentService.deleteDepartment(departmentId);
+    }
 }
