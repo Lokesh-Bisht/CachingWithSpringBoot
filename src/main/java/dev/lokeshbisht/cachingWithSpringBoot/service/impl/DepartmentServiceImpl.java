@@ -84,4 +84,14 @@ public class DepartmentServiceImpl implements DepartmentService {
             .build();
         return new ApiResponseDto<>(departmentList, "OK", metaDataDto);
     }
+
+    @Override
+    public void deleteDepartment(Long departmentId) {
+        logger.info("Delete department: {}", departmentId);
+        Department department = departmentRepository.findOneByDepartmentId(departmentId);
+        if (department == null) {
+            throw new DepartmentNotFoundException("Department not found!");
+        }
+        departmentRepository.delete(department);
+    }
 }
