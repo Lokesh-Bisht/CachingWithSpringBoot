@@ -3,10 +3,7 @@ package dev.lokeshbisht.cachingWithSpringBoot.controller;
 import dev.lokeshbisht.cachingWithSpringBoot.document.Instructor;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.ErrorResponseDto;
 import dev.lokeshbisht.cachingWithSpringBoot.enums.ErrorCode;
-import dev.lokeshbisht.cachingWithSpringBoot.exceptions.DepartmentNotFoundException;
-import dev.lokeshbisht.cachingWithSpringBoot.exceptions.InstructorNotFoundException;
-import dev.lokeshbisht.cachingWithSpringBoot.exceptions.InvalidResourceException;
-import dev.lokeshbisht.cachingWithSpringBoot.exceptions.SubjectNotFoundException;
+import dev.lokeshbisht.cachingWithSpringBoot.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +38,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDto> handleDepartmentNotFoundException(DepartmentNotFoundException ex) {
         log.error("DepartmentNotFoundException: {}", ex.getMessage());
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(ErrorCode.DEPARTMENT_NOT_FOUND, ex.getMessage());
+        return new ResponseEntity<>(errorResponseDto, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(StudentNotFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleStudentNotFoundException(StudentNotFoundException ex) {
+        log.error("StudentNotFoundException: {}", ex.getMessage());
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(ErrorCode.STUDENT_NOT_FOUND, ex.getMessage());
         return new ResponseEntity<>(errorResponseDto, HttpStatus.NOT_FOUND);
     }
 
