@@ -13,6 +13,8 @@ public class Student {
     @Id
     private String id;
 
+    private Long studentId;
+
     private String name;
 
     private int age;
