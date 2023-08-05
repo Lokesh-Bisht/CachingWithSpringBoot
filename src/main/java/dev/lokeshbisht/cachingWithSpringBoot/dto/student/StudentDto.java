@@ -25,7 +25,4 @@ public class StudentDto {
 
     @JsonProperty("enrollmentDate")
     private Date EnrollmentDate;
-
-    @JsonProperty("address")
-    private AddressDto addressDto;
 }
