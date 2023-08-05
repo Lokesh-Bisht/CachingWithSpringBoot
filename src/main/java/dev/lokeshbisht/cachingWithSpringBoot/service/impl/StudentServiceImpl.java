@@ -1,7 +1,10 @@
 package dev.lokeshbisht.cachingWithSpringBoot.service.impl;
 
 import dev.lokeshbisht.cachingWithSpringBoot.document.Student;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.student.AddressDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.student.CreateStudentRequestDto;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.student.StudentDto;
+import dev.lokeshbisht.cachingWithSpringBoot.exceptions.StudentNotFoundException;
 import dev.lokeshbisht.cachingWithSpringBoot.mapper.StudentMapper;
 import dev.lokeshbisht.cachingWithSpringBoot.repository.StudentRepository;
 import dev.lokeshbisht.cachingWithSpringBoot.service.StudentService;
@@ -41,5 +44,26 @@ public class StudentServiceImpl implements StudentService {
         student.setCreatedAt(new Date());
         logger.info("Complete - createStudent");
         return studentRepository.save(student);
+    }
+
+    @Override
+    public Student updateStudent(StudentDto studentDto, Long studentId) {
+        logger.info("Update info of student: {}.", studentId);
+        Student student = studentRepository.findOneByStudentId(studentId);
+        if (student == null) {
+            throw new StudentNotFoundException("Student not found!");
+        }
+        AddressDto addressDto = AddressDto.builder()
+            .address(student.getAddress())
+            .city(student.getCity())
+            .state(student.getState())
+            .zipCode(student.getZipCode())
+            .build();
+        Student updatedStudent = studentMapper.toStudent(studentDto, addressDto, student.getCreatedBy(), "", studentId);
+        updatedStudent.setId(student.getId());
+        updatedStudent.setCreatedAt(student.getCreatedAt());
+        updatedStudent.setUpdatedAt(new Date());
+        logger.info("Updated student info: {}", updatedStudent);
+        return studentRepository.save(updatedStudent);
     }
 }
