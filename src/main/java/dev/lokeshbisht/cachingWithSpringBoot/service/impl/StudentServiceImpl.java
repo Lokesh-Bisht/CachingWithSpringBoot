@@ -66,4 +66,14 @@ public class StudentServiceImpl implements StudentService {
         logger.info("Updated student info: {}", updatedStudent);
         return studentRepository.save(updatedStudent);
     }
+
+    @Override
+    public Student getStudent(Long studentId) {
+        logger.info("Get student: {}", studentId);
+        Student student = studentRepository.findOneByStudentId(studentId);
+        if (student == null) {
+            throw new StudentNotFoundException("Student not found!");
+        }
+        return student;
+    }
 }
