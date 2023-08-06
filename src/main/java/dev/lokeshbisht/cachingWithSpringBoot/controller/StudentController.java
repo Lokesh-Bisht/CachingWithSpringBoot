@@ -24,4 +24,9 @@ public class StudentController {
     public Student updateStudent(@RequestBody StudentDto studentDto, @PathVariable Long studentId) {
         return studentService.updateStudent(studentDto, studentId);
     }
+
+    @GetMapping("/student/{studentId")
+    public Student getStudent(@PathVariable Long studentId) {
+        return studentService.getStudent(studentId);
+    }
 }
