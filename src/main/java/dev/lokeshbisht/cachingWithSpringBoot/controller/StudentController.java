@@ -20,7 +20,7 @@ public class StudentController {
         return studentService.createStudent(createStudentRequestDto);
     }
 
-    @PutMapping("/student/{studentId}")
+    @PatchMapping("/student/{studentId}")
     public Student updateStudent(@RequestBody StudentDto studentDto, @PathVariable Long studentId) {
         return studentService.updateStudent(studentDto, studentId);
     }
