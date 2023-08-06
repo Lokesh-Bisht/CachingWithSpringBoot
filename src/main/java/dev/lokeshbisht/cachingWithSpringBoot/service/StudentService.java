@@ -8,4 +8,5 @@ public interface StudentService {
 
     Student createStudent(CreateStudentRequestDto createStudentRequestDto);
     Student updateStudent(StudentDto studentDto, Long studentId);
+    Student getStudent(Long studentId);
 }
