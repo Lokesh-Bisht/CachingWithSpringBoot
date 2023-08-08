@@ -1,6 +1,7 @@
 package dev.lokeshbisht.cachingWithSpringBoot.controller;
 
 import dev.lokeshbisht.cachingWithSpringBoot.document.Student;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.student.AddressDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.student.CreateStudentRequestDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.student.StudentDto;
 import dev.lokeshbisht.cachingWithSpringBoot.service.StudentService;
@@ -25,7 +26,12 @@ public class StudentController {
         return studentService.updateStudent(studentDto, studentId);
     }
 
-    @GetMapping("/student/{studentId")
+    @PatchMapping("/student/{studentId}/address")
+    public Student updateStudent(@RequestBody AddressDto addressDto, @PathVariable Long studentId) {
+        return studentService.updateStudentAddress(addressDto, studentId);
+    }
+
+    @GetMapping("/student/{studentId}")
     public Student getStudent(@PathVariable Long studentId) {
         return studentService.getStudent(studentId);
     }
