@@ -68,6 +68,30 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Student updateStudentAddress(AddressDto addressDto, Long studentId) {
+        logger.info("Update address of student: {}.", studentId);
+        Student student = studentRepository.findOneByStudentId(studentId);
+        if (student == null) {
+            throw new StudentNotFoundException("Student not found!");
+        }
+        StudentDto studentDto = StudentDto.builder()
+            .name(student.getName())
+            .age(student.getAge())
+            .gender(student.getGender())
+            .mobileNumber(student.getMobileNumber())
+            .email(student.getEmail())
+            .departmentId(student.getDepartmentId())
+            .enrollmentDate(student.getEnrollmentDate())
+            .build();
+        Student updatedStudent = studentMapper.toStudent(studentDto, addressDto, student.getCreatedBy(), "", studentId);
+        updatedStudent.setId(student.getId());
+        updatedStudent.setCreatedAt(student.getCreatedAt());
+        updatedStudent.setUpdatedAt(new Date());
+        logger.info("Updated student info: {}", updatedStudent);
+        return studentRepository.save(updatedStudent);
+    }
+
+    @Override
     public Student getStudent(Long studentId) {
         logger.info("Get student: {}", studentId);
         Student student = studentRepository.findOneByStudentId(studentId);

@@ -1,11 +1,13 @@
 package dev.lokeshbisht.cachingWithSpringBoot.dto.student;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
+@Builder
 public class StudentDto {
 
     @JsonProperty("student_name")
@@ -24,5 +26,5 @@ public class StudentDto {
     private Long departmentId;
 
     @JsonProperty("enrollmentDate")
-    private Date EnrollmentDate;
+    private Date enrollmentDate;
 }
