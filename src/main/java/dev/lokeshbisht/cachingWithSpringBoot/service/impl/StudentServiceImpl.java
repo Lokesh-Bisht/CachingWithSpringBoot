@@ -16,6 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -99,5 +100,11 @@ public class StudentServiceImpl implements StudentService {
             throw new StudentNotFoundException("Student not found!");
         }
         return student;
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        logger.info("Get all students.");
+        return studentRepository.findAll();
     }
 }
