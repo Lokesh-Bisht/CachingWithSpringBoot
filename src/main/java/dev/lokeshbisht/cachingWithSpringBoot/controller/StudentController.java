@@ -8,6 +8,8 @@ import dev.lokeshbisht.cachingWithSpringBoot.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/v1")
@@ -34,5 +36,10 @@ public class StudentController {
     @GetMapping("/student/{studentId}")
     public Student getStudent(@PathVariable Long studentId) {
         return studentService.getStudent(studentId);
+    }
+
+    @GetMapping("/student/all")
+    public List<Student> getAllStudents() {
+        return studentService.getAllStudents();
     }
 }
