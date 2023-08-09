@@ -1,6 +1,8 @@
 package dev.lokeshbisht.cachingWithSpringBoot.service.impl;
 
 import dev.lokeshbisht.cachingWithSpringBoot.document.Student;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.ApiResponseDto;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.MetaDataDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.student.AddressDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.student.CreateStudentRequestDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.student.StudentDto;
@@ -103,8 +105,16 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getAllStudents() {
+    public ApiResponseDto<List<Student>> getAllStudents() {
         logger.info("Get all students.");
-        return studentRepository.findAll();
+        long startTime = System.currentTimeMillis();
+        List<Student> studentList = studentRepository.findAll();
+        MetaDataDto metaDataDto = MetaDataDto.builder()
+            .page(1)
+            .size(1)
+            .total(studentList.size())
+            .took(System.currentTimeMillis() - startTime)
+            .build();
+        return new ApiResponseDto<>(studentList, "OK", metaDataDto);
     }
 }
