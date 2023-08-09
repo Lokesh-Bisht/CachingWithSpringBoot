@@ -1,6 +1,7 @@
 package dev.lokeshbisht.cachingWithSpringBoot.service;
 
 import dev.lokeshbisht.cachingWithSpringBoot.document.Student;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.ApiResponseDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.student.AddressDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.student.CreateStudentRequestDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.student.StudentDto;
@@ -13,5 +14,5 @@ public interface StudentService {
     Student updateStudent(StudentDto studentDto, Long studentId);
     Student updateStudentAddress(AddressDto addressDto, Long studentId);
     Student getStudent(Long studentId);
-    List<Student> getAllStudents();
+    ApiResponseDto<List<Student>> getAllStudents();
 }
