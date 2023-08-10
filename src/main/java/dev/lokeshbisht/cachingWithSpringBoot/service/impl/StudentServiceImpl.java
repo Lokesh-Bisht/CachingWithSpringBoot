@@ -117,4 +117,12 @@ public class StudentServiceImpl implements StudentService {
             .build();
         return new ApiResponseDto<>(studentList, "OK", metaDataDto);
     }
+
+    @Override
+    public List<Student> getAllStudentsByDepartment(List<Long> departmentIdList) {
+        logger.info("Get all students.");
+        long startTime = System.currentTimeMillis();
+        List<Student> studentList = studentRepository.findAllByDepartmentIdIn(departmentIdList);
+        return studentList;
+    }
 }
