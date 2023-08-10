@@ -15,4 +15,5 @@ public interface StudentService {
     Student updateStudentAddress(AddressDto addressDto, Long studentId);
     Student getStudent(Long studentId);
     ApiResponseDto<List<Student>> getAllStudents();
+    List<Student> getAllStudentsByDepartment(List<Long> departmentIdList);
 }
