@@ -2,6 +2,7 @@ package dev.lokeshbisht.cachingWithSpringBoot.controller;
 
 import dev.lokeshbisht.cachingWithSpringBoot.document.Student;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.ApiResponseDto;
+import dev.lokeshbisht.cachingWithSpringBoot.dto.department.StudentDepartmentRequestDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.student.AddressDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.student.CreateStudentRequestDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.student.StudentDto;
@@ -42,5 +43,10 @@ public class StudentController {
     @GetMapping("/student/all")
     public ApiResponseDto<List<Student>> getAllStudents() {
         return studentService.getAllStudents();
+    }
+
+    @GetMapping("/student/department/all")
+    public List<Student> getAllStudentsByDepartment(@RequestBody StudentDepartmentRequestDto studentDepartmentRequestDto) {
+        return studentService.getAllStudentsByDepartment(studentDepartmentRequestDto.getDepartmentIdList());
     }
 }
