@@ -46,7 +46,7 @@ public class StudentController {
     }
 
     @GetMapping("/student/department/all")
-    public List<Student> getAllStudentsByDepartment(@RequestBody StudentDepartmentRequestDto studentDepartmentRequestDto) {
+    public ApiResponseDto<List<Student>> getAllStudentsByDepartment(@RequestBody StudentDepartmentRequestDto studentDepartmentRequestDto) {
         return studentService.getAllStudentsByDepartment(studentDepartmentRequestDto.getDepartmentIdList());
     }
 }
