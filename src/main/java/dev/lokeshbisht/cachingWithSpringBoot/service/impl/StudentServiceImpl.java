@@ -131,4 +131,14 @@ public class StudentServiceImpl implements StudentService {
             .build();
         return new ApiResponseDto<>(studentList, "OK", metaDataDto);
     }
+
+    @Override
+    public void deleteStudent(Long studentId) {
+        logger.info("Delete student: {}", studentId);
+        Student student = studentRepository.findOneByStudentId(studentId);
+        if (student == null) {
+            throw new StudentNotFoundException("Student not found!");
+        }
+        studentRepository.delete(student);
+    }
 }

@@ -16,4 +16,5 @@ public interface StudentService {
     Student getStudent(Long studentId);
     ApiResponseDto<List<Student>> getAllStudents();
     ApiResponseDto<List<Student>> getAllStudentsByDepartment(List<Long> departmentIdList);
+    void deleteStudent(Long studentId);
 }

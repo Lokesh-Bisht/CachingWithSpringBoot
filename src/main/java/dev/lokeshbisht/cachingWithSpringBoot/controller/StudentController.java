@@ -49,4 +49,9 @@ public class StudentController {
     public ApiResponseDto<List<Student>> getAllStudentsByDepartment(@RequestBody StudentDepartmentRequestDto studentDepartmentRequestDto) {
         return studentService.getAllStudentsByDepartment(studentDepartmentRequestDto.getDepartmentIdList());
     }
+
+    @DeleteMapping("/student/{studentId}")
+    public void deleteStudent(@PathVariable Long studentId) {
+        studentService.deleteStudent(studentId);
+    }
 }
