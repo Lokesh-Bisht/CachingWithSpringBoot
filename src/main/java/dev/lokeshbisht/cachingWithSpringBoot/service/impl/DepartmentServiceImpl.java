@@ -1,5 +1,7 @@
 package dev.lokeshbisht.cachingWithSpringBoot.service.impl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.lokeshbisht.cachingWithSpringBoot.document.Department;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.ApiResponseDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.MetaDataDto;
@@ -15,8 +17,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -30,6 +32,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     @Qualifier("counterRedisTemplate")
     private RedisTemplate<String, Long> redisTemplate;
+
+    @Autowired
+    @Qualifier("redisTemplate")
+    private RedisTemplate<String, List<Object>> redisTemplate2;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(DepartmentServiceImpl.class);
 
@@ -75,7 +84,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     public ApiResponseDto<List<Department>> getAllDepartments() {
         logger.info("Fetch all departments.");
         long startTime = System.currentTimeMillis();
-        List<Department> departmentList = departmentRepository.findAll();
+        List<Department> departmentList = Objects.requireNonNull(redisTemplate2.opsForValue().get("allDepartments"))
+            .stream()
+            .map(item -> objectMapper.convertValue(item, Department.class))
+            .collect(Collectors.toList());
+        if (departmentList.isEmpty()) {
+            logger.info("Fetching departments from database.");
+            departmentList = departmentRepository.findAll();
+            redisTemplate2.opsForValue().set("allDepartments", Collections.singletonList(departmentList));
+        }
         MetaDataDto metaDataDto = MetaDataDto.builder()
             .page(1)
             .size(1)
