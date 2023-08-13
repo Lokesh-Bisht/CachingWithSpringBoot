@@ -31,10 +31,6 @@ public class InstructorServiceImpl implements InstructorService {
     @Qualifier("counterRedisTemplate")
     private RedisTemplate<String, Long> redisTemplate;
 
-    @Autowired
-    @Qualifier("redisTemplate")
-    private RedisTemplate<String, Object> redisTemplate2;
-
     private static final Logger logger = LoggerFactory.getLogger(InstructorServiceImpl.class);
 
     @Override
