@@ -1,5 +1,6 @@
 package dev.lokeshbisht.cachingWithSpringBoot.document;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,10 +16,13 @@ public class Department {
 
     private Long departmentId;
 
+    @NotNull(message = "DepartmentCode is required.")
     private String departmentCode;
 
+    @NotNull(message = "Department name is required.")
     private String departmentName;
 
+    @NotNull(message = "Department head is required.")
     private Long headOfDepartment;
 
     private Date createdAt;
