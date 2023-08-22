@@ -4,6 +4,7 @@ import dev.lokeshbisht.cachingWithSpringBoot.document.Department;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.ApiResponseDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.department.DepartmentDto;
 import dev.lokeshbisht.cachingWithSpringBoot.service.DepartmentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,12 +19,12 @@ public class DepartmentController {
     private DepartmentService departmentService;
 
     @PostMapping("/department")
-    public Department createDepartment(@RequestBody DepartmentDto departmentDto) {
+    public Department createDepartment(@Valid @RequestBody DepartmentDto departmentDto) {
         return departmentService.createDepartment(departmentDto);
     }
 
     @PutMapping("/department/{departmentId}")
-    public Department updateDepartment(@RequestBody DepartmentDto departmentDto, @PathVariable Long departmentId) {
+    public Department updateDepartment(@Valid @RequestBody DepartmentDto departmentDto, @PathVariable Long departmentId) {
         return departmentService.updateDepartment(departmentDto, departmentId);
     }
 
