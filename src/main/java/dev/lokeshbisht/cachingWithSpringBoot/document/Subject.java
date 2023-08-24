@@ -1,5 +1,7 @@
 package dev.lokeshbisht.cachingWithSpringBoot.document;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -19,10 +21,13 @@ public class Subject implements Serializable {
 
     private Long subjectId;
 
+    @NotBlank(message = "Subject name is required.")
     private String name;
 
+    @NotBlank(message = "Subject code is required.")
     private String code;
 
+    @NotNull(message = "Course ID is required.")
     private Long courseId;
 
     private List<Long> instructors;
