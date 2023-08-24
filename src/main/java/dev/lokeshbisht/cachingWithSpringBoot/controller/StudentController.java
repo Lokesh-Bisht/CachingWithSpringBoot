@@ -7,6 +7,7 @@ import dev.lokeshbisht.cachingWithSpringBoot.dto.student.AddressDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.student.CreateStudentRequestDto;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.student.StudentDto;
 import dev.lokeshbisht.cachingWithSpringBoot.service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +22,12 @@ public class StudentController {
     private StudentService studentService;
 
     @PostMapping("/student")
-    public Student createStudent(@RequestBody CreateStudentRequestDto createStudentRequestDto) {
+    public Student createStudent(@Valid @RequestBody CreateStudentRequestDto createStudentRequestDto) {
         return studentService.createStudent(createStudentRequestDto);
     }
 
     @PatchMapping("/student/{studentId}")
-    public Student updateStudent(@RequestBody StudentDto studentDto, @PathVariable Long studentId) {
+    public Student updateStudent(@Valid @RequestBody StudentDto studentDto, @PathVariable Long studentId) {
         return studentService.updateStudent(studentDto, studentId);
     }
 
