@@ -1,6 +1,5 @@
 package dev.lokeshbisht.cachingWithSpringBoot.service.impl;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.lokeshbisht.cachingWithSpringBoot.document.Department;
 import dev.lokeshbisht.cachingWithSpringBoot.dto.ApiResponseDto;
@@ -31,11 +30,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
     @Qualifier("counterRedisTemplate")
-    private RedisTemplate<String, Long> redisTemplate;
+    private RedisTemplate<String, Long> counterRedisTemplate;
 
     @Autowired
     @Qualifier("redisTemplate")
-    private RedisTemplate<String, Object> redisTemplate2;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -45,10 +44,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Department createDepartment(DepartmentDto departmentDto) {
         logger.info("Create new department: {}", departmentDto);
-        Long counter = redisTemplate.opsForValue().increment("departmentCounter");
+        redisTemplate.opsForList().trim("allDepartments", 0, -1);
+        Long counter = counterRedisTemplate.opsForValue().increment("departmentCounter");
         if (counter == null) {
             counter = 1L;
-            redisTemplate.opsForValue().set("departmentCounter", counter);
+            counterRedisTemplate.opsForValue().set("departmentCounter", counter);
         }
         Department department = departmentMapper.toDepartment(departmentDto, counter);
         department.setCreatedAt(new Date());
@@ -58,6 +58,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Department updateDepartment(DepartmentDto departmentDto, Long departmentId) {
         logger.info("Update department: {}, info: {}", departmentId, departmentDto);
+        redisTemplate.opsForList().trim("allDepartments", 0, -1);
         Department department = departmentRepository.findOneByDepartmentId(departmentId);
         if (department == null) {
             throw new DepartmentNotFoundException("Department not found!");
@@ -84,7 +85,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public ApiResponseDto<List<Department>> getAllDepartments() {
         logger.info("Fetch all departments.");
         long startTime = System.currentTimeMillis();
-        List<Object> result = redisTemplate2.opsForList().range("allDepartments", 0, -1);
+        List<Object> result = redisTemplate.opsForList().range("allDepartments", 0, -1);
         if (result == null) {
             result = new ArrayList<>();
         }
@@ -94,7 +95,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         if (departmentList.isEmpty()) {
             logger.info("Fetching departments from database.");
             departmentList = departmentRepository.findAll();
-            departmentList.forEach(department -> redisTemplate2.opsForList().leftPush("allDepartments", department));
+            departmentList.forEach(department -> redisTemplate.opsForList().leftPush("allDepartments", department));
         }
         MetaDataDto metaDataDto = MetaDataDto.builder()
             .page(1)
@@ -108,6 +109,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public void deleteDepartment(Long departmentId) {
         logger.info("Delete department: {}", departmentId);
+        redisTemplate.opsForList().trim("allDepartments", 0, -1);
         Department department = departmentRepository.findOneByDepartmentId(departmentId);
         if (department == null) {
             throw new DepartmentNotFoundException("Department not found!");
