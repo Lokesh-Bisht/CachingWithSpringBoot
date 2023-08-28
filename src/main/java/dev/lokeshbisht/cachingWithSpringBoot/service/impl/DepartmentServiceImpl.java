@@ -35,7 +35,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
     @Qualifier("redisTemplate")
-    private RedisTemplate<String, List<Object>> redisTemplate2;
+    private RedisTemplate<String, Object> redisTemplate2;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -84,14 +84,17 @@ public class DepartmentServiceImpl implements DepartmentService {
     public ApiResponseDto<List<Department>> getAllDepartments() {
         logger.info("Fetch all departments.");
         long startTime = System.currentTimeMillis();
-        List<Department> departmentList = Objects.requireNonNull(redisTemplate2.opsForValue().get("allDepartments"))
-            .stream()
+        List<Object> result = redisTemplate2.opsForList().range("allDepartments", 0, -1);
+        if (result == null) {
+            result = new ArrayList<>();
+        }
+        List<Department> departmentList = result.stream()
             .map(item -> objectMapper.convertValue(item, Department.class))
             .collect(Collectors.toList());
         if (departmentList.isEmpty()) {
             logger.info("Fetching departments from database.");
             departmentList = departmentRepository.findAll();
-            redisTemplate2.opsForValue().set("allDepartments", Collections.singletonList(departmentList));
+            departmentList.forEach(department -> redisTemplate2.opsForList().leftPush("allDepartments", department));
         }
         MetaDataDto metaDataDto = MetaDataDto.builder()
             .page(1)
