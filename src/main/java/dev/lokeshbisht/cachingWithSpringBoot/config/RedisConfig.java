@@ -14,7 +14,6 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
-import java.util.List;
 
 @Configuration
 @EnableCaching
@@ -37,8 +36,8 @@ public class RedisConfig {
     }
 
     @Bean(name = "redisTemplate")
-    public RedisTemplate<String, List<Object>> redisTemplate() {
-        RedisTemplate<String, List<Object>> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(jedisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
